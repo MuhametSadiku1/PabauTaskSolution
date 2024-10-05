@@ -1,0 +1,13 @@
+.bookingLink {
+  text-decoration: none;
+  color: #0070f3;
+  padding: 10px 15px;
+  margin: 5px 0;
+  background-color: #fff;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.bookingLink:hover {
+  background-color: #e0e0e0;
+}
