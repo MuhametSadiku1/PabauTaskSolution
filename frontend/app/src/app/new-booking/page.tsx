@@ -1,37 +1,34 @@
-import { useRouter } from "next/router";
+"use client";
+
+import { useRouter } from "next/navigation";
 import styles from "./NewBooking.module.css";
 
 const NewBookingPage: React.FC = async () => {
   const router = useRouter();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
 
-    fetch("/api/bookings", {
+    const res = await fetch("http://host.docker.internal:5000/api/bookings", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.text();
-      })
-      .then((data) => {
-        alert("Booking successful: " + data);
-        event.target.reset();
-        router.push("/");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert("There was an error with your booking. Please try again.");
-      });
+      cache: "no-store",
+      mode: "no-cors",
+    });
+
+    if (!res.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    alert("Booking successful: " + data);
+    event.target.reset();
+    router.push("/");
   };
 
   return (
@@ -44,7 +41,7 @@ const NewBookingPage: React.FC = async () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="doctor_name">Doctor's Name:</label>
+          <label htmlFor="doctor_name">Doctor&apos;s Name:</label>
           <input type="text" id="doctor_name" name="doctor_name" required />
         </div>
 
