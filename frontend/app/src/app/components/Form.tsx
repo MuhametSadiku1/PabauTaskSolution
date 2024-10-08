@@ -28,7 +28,6 @@ const Form: React.FC = async () => {
 
     alert("Booking successful: " + data);
     router.push("/");
-    return res.json();
   };
 
   return (
